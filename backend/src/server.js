@@ -8,19 +8,26 @@ dotenv.config();
 
 const app = express();
 
-// Middleware - code that runs before our routes
-app.use(express.json()); // Allows server to understand JSON data
-app.use(cors("*")); // Allows frontend to communicate with backend
+// Middleware
+app.use(express.json());
+app.use(cors("*"));
 
 app.get('/', (req, res) => {
-    res.send('API is running...');
+  res.send('API is running...');
 });
 
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    connectDB();
-})
+// ✅ First connect to DB, then start server
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ Failed to connect to DB:', err.message);
+    process.exit(1); // Force quit the app
+  });

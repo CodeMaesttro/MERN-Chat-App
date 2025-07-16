@@ -4,7 +4,16 @@ import generateJWT from "../utils/generateJWT.js";
 
 // ✅ Signup controller
 export const signUp = async (req, res) => {
-  const { username, email, password, avatar } = req.body;
+  const {
+    username,
+    email,
+    password,
+    avatar,
+    location,
+    relationshipStatus,
+    dateOfBirth
+  } = req.body;
+
   try {
     // 1️⃣ Validate data
     if (!username || !email || !password) {
@@ -33,7 +42,14 @@ export const signUp = async (req, res) => {
       username,
       email,
       password: hashPassword,
-      avatar
+      avatar,
+      location: {
+        country: location?.country || "",
+        city: location?.city || "",
+        houseAddress: location?.houseAddress || ""
+      },
+      relationshipStatus: relationshipStatus || "Single",
+      dateOfBirth: dateOfBirth || null
     });
 
     await newUser.save();
@@ -44,7 +60,10 @@ export const signUp = async (req, res) => {
         id: newUser._id,
         username: newUser.username,
         email: newUser.email,
-        avatar: newUser.avatar
+        avatar: newUser.avatar,
+        location: newUser.location,
+        relationshipStatus: newUser.relationshipStatus,
+        dateOfBirth: newUser.dateOfBirth
       }
     });
   } catch (error) {
@@ -102,6 +121,9 @@ export const signIn = async (req, res) => {
         email: user.email,
         avatar: user.avatar,
         isOnline: user.isOnline,
+        location: user.location,
+        relationshipStatus: user.relationshipStatus,
+        dateOfBirth: user.dateOfBirth
       },
     });
   } catch (error) {

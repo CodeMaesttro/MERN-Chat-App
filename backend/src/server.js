@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'; // ✅ Import cookie-parser
 
 import connectDB from './lib/db.js';
 import authRouter from './routes/auth.route.js';
+import messageRouter from './routes/message.route.js'; // Import message routes
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.use("/api/auth", authRouter);     // Auth routes
+app.use("/api/messages", messageRouter); // Message routes
 
 // ✅ Connect DB first, then start server
 const PORT = process.env.PORT || 8000;

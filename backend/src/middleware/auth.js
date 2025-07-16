@@ -1,6 +1,8 @@
 // Import required packages
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import userModel from '../models/user.model.js'; // ✅ correct path
+import User from '../models/user.model.js'; // Import User model
+
 
 // Authentication middleware function
 const auth = async (req, res, next) => {

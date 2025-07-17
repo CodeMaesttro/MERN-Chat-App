@@ -5,7 +5,7 @@ import userModel from "../models/user.model.js";
 export const sendMessage = async (req, res) => {
   try {
     // Get data from request
-    const { receiverId, text, imageUrl } = req.body;
+    const { receiverId, text, imageUrl} = req.body;
     const senderId = req.user._id; // From auth middleware
     
     // Validate that we have either text or image
@@ -38,7 +38,7 @@ export const sendMessage = async (req, res) => {
       senderId,
       receiverId,
       text: text?.trim(),
-      imageUrl
+      imageUrl: imageUrl?.trim() || null
     });
     
     // Save message to database
@@ -64,6 +64,7 @@ export const sendMessage = async (req, res) => {
     });
   }
 };
+
 
 // Get messages between two users
 export const getMessages = async (req, res) => {
@@ -124,6 +125,7 @@ export const getMessages = async (req, res) => {
   }
 };
 
+
 // Get all users that current user has chatted with (for sidebar)
 export const getConversations = async (req, res) => {
   try {
@@ -172,6 +174,7 @@ export const getConversations = async (req, res) => {
   }
 };
 
+
 // Delete a message (only sender can delete)
 export const deleteMessage = async (req, res) => {
   try {
@@ -216,7 +219,7 @@ export const deleteMessage = async (req, res) => {
 };
 
 // Get single message details
-export const getMessage = async (req, res) => {
+export const getMessageInfo = async (req, res) => {
   try {
     const { messageId } = req.params;
     const userId = req.user._id;

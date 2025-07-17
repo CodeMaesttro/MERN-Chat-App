@@ -16,10 +16,11 @@ const messageSchema = new mongoose.Schema(
     text: {
       type: String,
       trim: true,
-      maxlength: 100, // Limit text length to 100 characters
+      maxlength: 2000, // Limit text length to 1000 characters
     },
     imageUrl: {
       type: String,
+      trim: true,
     },
   },
   { timestamps: true }

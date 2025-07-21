@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
 import useAuthHook from './hooks/useAuthhook'
 import { useEffect } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   const { authUser, checkAuth } = useAuthHook();
@@ -16,18 +17,23 @@ function App() {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+  
+  const notify = () => toast('Here is your toast.');
 
   return (
     <div>
+       <Toaster />
+         <button onClick={notify}>Make me a toast</button>
       <NavBar authUser={authUser}/>
 
       {/* Define your routes here */}
       <Routes>
+        <Route path="/" element={!authUser ? <HomePage /> : <Navigate to="/signin" />} />
         {/* <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/signin" />} />
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/signin" />} />
         <Route path="/settings" element={<SettingsPage />} /> */}
         <Route path="/signup" element={<SignUpPage />} />
-        {/* <Route path="/signin" element={!authUser ? <SignInPage /> : <Navigate to="/" />} /> */}
+         <Route path="/signin" element={!authUser ? <SignInPage /> : <Navigate to="/" />} /> 
       </Routes>
     </div>
   )

@@ -4,7 +4,12 @@ import generateJWT from "../lib/generateJWT.js";
 
 
 export const signUp = async (req, res) => {
-  const { username, email, password, avatar } = req.body;
+  const { data } = req.body;
+  console.log(data);
+  const username = data.username;
+  const email = data.email; 
+  const password = data.password;
+  const avatar = data?.avatar 
   try {
     // Validate data
     if (!username || !email || !password) {

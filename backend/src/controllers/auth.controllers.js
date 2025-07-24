@@ -225,3 +225,48 @@ export const checkAuth = async (req, res) => {
     });
   }
 }
+
+// controllers/auth.controller.js or user.controller.js
+
+export const updateUser = async (req, res) => {
+  try {
+    const { username, avatar, email, password } = req.body;
+    const userId = req.user._id;
+
+    const updateFields = {};
+
+    if (username) updateFields.username = username;
+    if (avatar) updateFields.avatar = avatar;
+    if (email) updateFields.email = email;
+
+    if (password) {
+      if (password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+      }
+      const salt = await bcrypt.genSalt(10);
+      updateFields.password = await bcrypt.hash(password, salt);
+    }
+
+    const updatedUser = await userModel.findByIdAndUpdate(userId, updateFields, {
+      new: true, // return updated user
+      runValidators: true, // validate new data
+    });
+
+    res.status(200).json({
+      message: "User updated successfully",
+      user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        avatar: updatedUser.avatar,
+        isOnline: updatedUser.isOnline,
+      },
+    });
+  } catch (error) {
+    console.error("Update user error:", error);
+    res.status(500).json({
+      message: "Server error during user update",
+      error: error.message,
+    });
+  }
+};

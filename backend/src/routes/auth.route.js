@@ -20,6 +20,7 @@ router.get('/check', auth, checkAuth);
 
 
 
+
 // Sign-up route - POST /api/auth/signup
 router.post('/signup', async (req, res) => {
   try {

@@ -1,84 +1,66 @@
-import bcrypt from "bcryptjs";
-import userModel from "../models/user.model.js";
-import generateJWT from "../lib/generateJWT.js";
+import bcrypt from 'bcrypt';
+import userModel from '../models/user.model.js';
+import generateJWT from '../utils/generateJWT.js';
 
 
-export const signUp = async (req, res) => {
-  const { data } = req.body;
-  console.log(data);
-  const username = data.username;
-  const email = data.email; 
-  const password = data.password;
-  const avatar = data?.avatar 
-  try {
-    // Validate data
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: "Please fill all fields" });
-    }
+export const signup = async (req, res ) =>{
+    const {username, email, password, avatar} = req.body;
+    try{
 
-    // Validate password length
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 6 characters" });
-    }
+        if (!username || !email || !password){
+            return res.status(400).json({message: "Please fill all field"});
+        }  
+            
+            //validate password
+        if (password.length < 6) {
+            return res.status(400).json({message: "Password must be at least 6 characters"});   
+        }
 
-    // Encrypt the password using bycryptjs
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+        // encrypt password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
-    if (!hashPassword) {
-        return res.status(404).json({
-            message: "Password hashing failed"
-        })
-    }
+        if (!hashedPassword) {
+            return res.status(404).json({message: "password hashing faileld"});
+        }
 
-    // Check if user already exists
-    const existingUser = await userModel.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+        // check if user already exists
+        const existinguser = await userModel.findOne({email})
 
-    // Create new user
-    const newUser = new userModel({
-      username,
-      email,
-      password: hashPassword,
-      avatar
-    });
+        // create user
+        const newUser = new userModel({
+            username: username,
+            email: email,
+            password: hashedPassword,
+            avatar: avatar || 'https://via.placeholder.com/150/4A90E2/FFFFFF?text=User'        
+        });
 
-    await newUser.save();
+        await newUser.save();
+        res.status(201).json({message: "User created successfully",
+             user: {
+                id: newUser._id,
+                username: newUser.username,
+                email: newUser.email,
+                avatar: newUser.avatar    }});
+                
+         } catch (error) {  
+            console.error("Error in signUp:", error);
+        }       res.status(500).json({message: "Internal server error"});
+         
+    }    
 
-    res.status(201).json({
-      message: "User created successfully",
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-        avatar: newUser.avatar
-      }
-    });
-  } catch (error) {
-    res.status(500).json({
-       message: "Internal server error",
-        error: error.message
-    });
-  }
-};
-
-
-export const signIn = async (req, res) => {
+export const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1️⃣ Validate input
+    // ⿡ Validate input
     if (!email || !password) {
       return res.status(400).json({
         message: "Please provide email and password",
       });
     }
 
-    // 2️⃣ Find user by email
+    // ⿢ Find user by email
     const user = await userModel.findOne({ email });
 
     if (!user) {
@@ -87,7 +69,7 @@ export const signIn = async (req, res) => {
       });
     }
 
-    // 3️⃣ Compare password
+    // ⿣ Compare password
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
@@ -96,14 +78,14 @@ export const signIn = async (req, res) => {
       });
     }
 
-    // 4️⃣ Set user online status to true
+    // ⿤ Set user online status to true
     user.isOnline = true;
     await user.save();
 
-    // 5️⃣ Generate token
+    // ⿥ Generate token
     const token = generateJWT(user._id, res);
 
-    // 6️⃣ Send response
+    // ⿦ Send response
     res.status(200).json({
       message: "Login successful",
       token,
@@ -115,18 +97,84 @@ export const signIn = async (req, res) => {
         isOnline: user.isOnline,
       },
     });
+
+   
+
+  // ⿥ Create and save new user
+    const newUser = new userModel({
+      username,
+      email,
+      password: hashedPassword,
+      avatar,
+      location: {
+        country: location?.country || "",
+        city: location?.city || "",
+        houseAddress: location?.houseAddress || ""
+      }
+    });
+   
+
+  await newUser.save();
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        avatar: newUser.avatar,
+        location: newUser.location,
+        
+
+      }
+    });
+
+    // ⿥ Create and save new user
+    const newuser = new userModel({
+      username,
+      email,
+      password: hashedPassword,
+      avatar,
+      location: {
+        country: location?.country || "",
+        city: location?.city || "",
+        houseAddress: location?.houseAddress || ""
+      }
+    });
+
+    await newuser.save();
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        avatar: newUser.avatar,
+        location: newUser.location
+      }
+    });
+
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({
       message: "Server error during login",
       error: error.message,
-    });
-  }
+    });
+  }
 };
+ // Import the JWT generation function
 
 
-export const SignOut = async (req, res) => {
+export const signout = async (req, res) => {
   try {
+    if (!req.user || !req.user._id ) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not authenticated',
+      });
+    }
+     
     // Update user's online status to false
     await userModel.findByIdAndUpdate(req.user._id, {
       isOnline: false,
@@ -150,9 +198,10 @@ export const SignOut = async (req, res) => {
       success: false,
       message: 'Server error during logout',
       error: error.message,
-    });
-  }
+    });
+  }
 };
+ 
 
 // Update user info controller
 

@@ -1,16 +1,16 @@
-import express from "express";
-import { deleteMessage, getConversations, getMessage, getMessages, sendMessage } from "../controllers/message.controllers.js";
-import auth from "../middlewares/auth.middleware.js";
+import express from 'express';
+import { deleteMessage, getConversations, getMessages, getMessage, sendMessage } from '../controllers/message.controllers.js';
+import auth from '../middleware/auth.middleware.js';
+import { get } from 'mongoose';
+
 
 const messageRouter = express.Router();
-messageRouter.get("/", auth, getConversations);
+
 
 messageRouter.post("/send", auth, sendMessage);
+messageRouter.get('/chats', auth, getConversations);
+messageRouter.get('/:userId', auth, getMessages);
+messageRouter.get('/msg/:messageId', auth, getMessage);
 
-messageRouter.get("/:userId", auth, getMessages);
-
-messageRouter.delete("/:messageId", auth, deleteMessage);
-
-messageRouter.get("/:messageId", auth, getMessage);
-
+messageRouter.delete('/:messageId', auth, deleteMessage);
 export default messageRouter;

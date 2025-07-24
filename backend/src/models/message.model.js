@@ -5,28 +5,29 @@ const messageSchema = new mongoose.Schema(
   {
     senderId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", 
+      ref: "user", 
       required: true,
     },
     text: {
       type: String,
-        trim: true,
-        maxlength: 1000, // Limit text length to 1000 characters
+      trim: true, // Remove extra spaces
+      maxlength: 1000, // Limit text length to 1000 characters
+      
     },
     imageUrl: {
       type: String,
-      trim: true,
+      trim: true, // Remove extra spaces
     },
   },
   { timestamps: true }
 );
 
 // Create and export the Message model
-const messageModel = mongoose.model("Message", messageSchema);
+const messageModel = mongoose.model("message", messageSchema);
 
 export default messageModel;

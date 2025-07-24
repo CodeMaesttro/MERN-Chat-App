@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     trim: true,          // Removes extra spaces
     minlength: 3,        // At least 3 characters
     maxlength: 20        // At most 20 characters
-  }, 
+  },
   email: {
     type: String,
     required: true,
@@ -24,16 +24,47 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: 'https://via.placeholder.com/150/4A90E2/FFFFFF?text=User'
+    default: 'https://via.placeholder.com/150/4A90E2/FFFFFF?text=user'
   },
+
+  
   isOnline: {
     type: Boolean,       // true or false
     default: false       // New users start offline
+  },
+
+
+    country: {
+      type: String,
+      default: ''
+    },
+    city: {
+      type: String,
+      default: ''
+    },
+    houseAddress:{
+      type: String,
+      default: ''
+    },
+
+ relationshipStatus: {
+    type: String,
+    enum: ['single', 'in a relationship', 'married', 'complicated', 'prefer not to say'],
+    default: 'single'
+  },
+
+  // ✅ Date of birth
+  dateOfBirth: {
+    type: Date,
+
   }
-}, {
+
+},
+
+{
   timestamps: true       // Automatically adds createdAt and updatedAt
 });
 
 // Create and export the User model
-const userModel = mongoose.model('User', userSchema);
+const userModel = mongoose.model('user', userSchema);
 export default userModel;

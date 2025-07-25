@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthSkeleton from '../components/auth/AuthSkeleton';
 import toast from 'react-hot-toast';
 
+
 const SignUpPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
@@ -28,7 +30,8 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const success = validateForm();
-    if (success === true) await signup(formData);
+    if (success === true) 
+    await signup(formData, navigate);
   };
 
   return (

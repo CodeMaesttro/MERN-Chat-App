@@ -24,47 +24,38 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: 'https://via.placeholder.com/150/4A90E2/FFFFFF?text=user'
+    default: 'https://via.placeholder.com/150/4A90E2/FFFFFF?text=User'
   },
-
-  
   isOnline: {
     type: Boolean,       // true or false
     default: false       // New users start offline
   },
 
-
-    country: {
-      type: String,
-      default: ''
-    },
-    city: {
-      type: String,
-      default: ''
-    },
-    houseAddress:{
-      type: String,
-      default: ''
-    },
-
- relationshipStatus: {
-    type: String,
-    enum: ['single', 'in a relationship', 'married', 'complicated', 'prefer not to say'],
-    default: 'single'
+  location: {
+    country: String,
+    city: String,
+    address: String
   },
 
-  // ✅ Date of birth
+  bio: {
+    type: String,
+    maxlength: 200       // At most 200 characters
+  },
+
+relationshipStatus: {
+    type: String,
+    enum: ['Single', 'In a Relationship', 'Married', 'Complicated', 'Prefer not to say'],
+  },
+
   dateOfBirth: {
     type: Date,
-
   }
 
-},
-
-{
+}, {
   timestamps: true       // Automatically adds createdAt and updatedAt
 });
 
 // Create and export the User model
-const userModel = mongoose.model('user', userSchema);
+const userModel = mongoose.model('User', userSchema);
+
 export default userModel;

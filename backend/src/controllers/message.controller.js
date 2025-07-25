@@ -5,11 +5,11 @@ import userModel from "../models/user.model.js";
 export const sendMessage = async (req, res) => {
   try {
     // Get data from request
-    const { receiverId, text, image } = req.body;
+    const { receiverId, text, imageUrl} = req.body;
     const senderId = req.user._id; // From auth middleware
     
     // Validate that we have either text or image
-    if (!text && !image) {
+    if (!text && !imageUrl) {
       return res.status(400).json({
         success: false,
         message: "Message must contain either text or image"
@@ -38,7 +38,7 @@ export const sendMessage = async (req, res) => {
       senderId,
       receiverId,
       text: text?.trim(),
-      image
+      imageUrl: imageUrl?.trim() || null
     });
     
     // Save message to database
@@ -89,6 +89,7 @@ export const getMessages = async (req, res) => {
     .sort({ createdAt: -1 })  // Newest first
     .skip(skip)
     .limit(limit);
+    console.log(messages);
     
     // Get total count for pagination
     const totalMessages = await messageModel.countDocuments({
@@ -124,6 +125,7 @@ export const getMessages = async (req, res) => {
     });
   }
 };
+
 
 // Get all users that current user has chatted with (for sidebar)
 export const getConversations = async (req, res) => {
@@ -174,9 +176,6 @@ export const getConversations = async (req, res) => {
 };
 
 
-
-
-
 // Delete a message (only sender can delete)
 export const deleteMessage = async (req, res) => {
   try {
@@ -221,7 +220,7 @@ export const deleteMessage = async (req, res) => {
 };
 
 // Get single message details
-export const getMessage = async (req, res) => {
+export const getMessageInfo = async (req, res) => {
   try {
     const { messageId } = req.params;
     const userId = req.user._id;

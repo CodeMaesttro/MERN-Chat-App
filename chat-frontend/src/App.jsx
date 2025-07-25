@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useAuthStore } from './store/useAuthStore';
+import { useEffect } from 'react';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
@@ -30,7 +30,7 @@ const App = () => {
         />
         <Route
           path="/signup"
-          element={authUser ? <Navigate to="/" /> : <SignUpPage />}
+          element={authUser ? <Navigate to="/login" /> : <SignUpPage />}
         />
         <Route
           path="/profile"

@@ -25,7 +25,11 @@ const Sidebar = () => {
     <aside className="h-full w-20 lg:w-80 border-r border-gray-200 flex flex-col transition-all duration-200">
       {/* Header */}
       <div className="border-b border-gray-200 p-5">
+<<<<<<< HEAD
         <div className="flex items-center gap-2">
+=======
+        <div className="flex mt-10 items-center gap-2">
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
           <Users className="w-6 h-6 text-gray-600" />
           <span className="font-semibold text-gray-900 hidden lg:block">Conversations</span>
         </div>

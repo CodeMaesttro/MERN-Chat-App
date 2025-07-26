@@ -4,7 +4,10 @@ import { MessageSquare, Settings, User, LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
+<<<<<<< HEAD
   console.log('authUser:', authUser);
+=======
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 fixed w-full top-0 z-40">
@@ -23,19 +26,31 @@ const Navbar = () => {
             <div className="relative group">
               <button className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <img
+<<<<<<< HEAD
                   src={authUser?.user?.avater || '/avatar.png'}
                   alt={authUser?.user?.username || 'User'}
                   className="w-8 h-8 rounded-full object-cover"
                 />
                 <span className="hidden md:block text-sm font-medium text-gray-700">
                   {authUser?.user?.username || 'User'}
+=======
+                  src={authUser?.profilePic || '/avatar.png'}
+                  alt={authUser?.username || 'User'}
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+                <span className="hidden md:block text-sm font-medium text-gray-700">
+                  {authUser?.username || 'User'}
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
                 </span>
               </button>
 
               {/* Dropdown Menu */}
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <div className="py-1">
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
                   <Link
                     to="/profile"
                     className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -43,7 +58,10 @@ const Navbar = () => {
                     <User className="w-4 h-4" />
                     Profile
                   </Link>
+<<<<<<< HEAD
 
+=======
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
                   <Link
                     to="/settings"
                     className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -51,9 +69,13 @@ const Navbar = () => {
                     <Settings className="w-4 h-4" />
                     Settings
                   </Link>
+<<<<<<< HEAD
 
                   <hr className="my-1" />
 
+=======
+                  <hr className="my-1" />
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
                   <button
                     onClick={logout}
                     className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
@@ -61,7 +83,10 @@ const Navbar = () => {
                     <LogOut className="w-4 h-4" />
                     Sign out
                   </button>
+<<<<<<< HEAD
                   
+=======
+>>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
                 </div>
               </div>
             </div>

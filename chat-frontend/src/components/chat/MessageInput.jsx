@@ -7,7 +7,7 @@ const MessageInput = () => {
   const [text, setText] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const { sendMessage } = useChatStore();
+  const { sendMessage, selectedUser } = useChatStore();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -29,14 +29,16 @@ const MessageInput = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
 
     try {
       await sendMessage({
+        receiverId: selectedUser._id,
         text: text.trim(),
-        image: imagePreview,
+        imageUrl: imagePreview,
       });
 
       // Clear form

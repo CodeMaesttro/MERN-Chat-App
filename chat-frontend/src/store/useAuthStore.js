@@ -2,10 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 
-=======
->>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
@@ -52,11 +49,7 @@ export const useAuthStore = create((set) => ({
     set({ isSigningUp: true });
     try {
       const res = await api.post('/auth/sign-up', data);
-<<<<<<< HEAD
       // set({ authUser: res.data });
-=======
-      set({ authUser: res.data });
->>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
       toast.success('Account created successfully');
       navigate('/login');
     } catch (error) {

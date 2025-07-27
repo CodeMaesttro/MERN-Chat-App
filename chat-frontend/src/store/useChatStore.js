@@ -14,13 +14,16 @@ export const useChatStore = create((set, get) => ({
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
+  // isSendingMessage: false,
 
   // Actions
   getUsers: async () => {
+    
     set({ isUsersLoading: true });
     try {
       const res = await api.get('/message/chats');
       set({ users: res.data.data });
+      console.log(res.data);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to load users');
     } finally {
@@ -40,8 +43,16 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-
-
+  sendMessage: async (messageData) => {
+      try {
+        const res = await api.post('/message/send-message', messageData);
+        return res.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+  
+    
   setSelectedUser: (selectedUser) => set({ selectedUser }),
 
   // Socket.io methods (will be implemented later)

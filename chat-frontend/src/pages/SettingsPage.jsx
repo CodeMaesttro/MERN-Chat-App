@@ -11,17 +11,11 @@ import {
   Users,
   Volume2,
 } from 'lucide-react';
-<<<<<<< HEAD
 import ThemeSwitcher from '../components/layout/ThemeSwitcher';
 
 const SettingsPage = () => {
   const { authUser, logout } = useAuthStore();
 
-=======
-
-const SettingsPage = () => {
-  const { authUser, logout } = useAuthStore();
->>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
   const [settings, setSettings] = useState({
     theme: 'light',
     notifications: true,
@@ -69,10 +63,7 @@ const SettingsPage = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-2xl mx-auto px-4">
         <div className="card p-8 space-y-8">
-<<<<<<< HEAD
 
-=======
->>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
           {/* Header */}
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
@@ -88,7 +79,6 @@ const SettingsPage = () => {
               title="Theme"
               description="Choose your preferred theme"
             >
-<<<<<<< HEAD
 
             <ThemeSwitcher
               value={settings.theme}
@@ -99,19 +89,6 @@ const SettingsPage = () => {
 
 
 
-=======
-              <select
-                value={settings.theme}
-                onChange={(e) => handleSettingChange('theme', e.target.value)}
-                className="input w-32"
-              >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-                <option value="system">System</option>
-              </select>
-            </SettingItem>
-
->>>>>>> dd7b13d81f6ea6ea8c4aa32e2a165477d03a39b6
             <SettingItem
               icon={Palette}
               title="Language"

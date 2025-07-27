@@ -14,6 +14,7 @@ const ChatContainer = () => {
     subscribeToMessages,
     unsubscribeFromMessages,
   } = useChatStore();
+
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
@@ -42,65 +43,56 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="flex-1 flex flex-col overflow-hidden bg-cyan">
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div
-            key={message._id}
-            className={`flex ${message.senderId === authUser?._id ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`flex gap-3 max-w-xs lg:max-w-md ${
-                message.senderId === authUser?._id ? 'flex-row-reverse' : 'flex-row'
-              }`}
-            >
-              {/* Avatar */}
-              <div className="w-8 h-8 rounded-full border-2 border-white shadow-sm overflow-hidden flex-shrink-0">
-                <img
-                  src={
-                    message.senderId === authUser?._id
-                      ? authUser?.profilePic || '/avatar.png'
-                      : selectedUser?.profilePic || '/avatar.png'
-                  }
-                  alt="avatar"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+        {messages.map((message) => {
+          const isMine = message.senderId?._id === authUser?.user?._id; // debuged to fix display
 
-              {/* Message Content */}
-              <div
-                className={`flex flex-col ${
-                  message.senderId === authUser?._id ? 'items-end' : 'items-start'
-                }`}
-              >
-                {/* Time */}
-                <div className="text-xs text-gray-500 mb-1">
-                  {formatMessageTime(message.createdAt)}
+          return (
+            <div key={message._id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+              <div className={`flex gap-3 max-w-xs lg:max-w-md ${isMine ? 'flex-row-reverse' : 'flex-row'}`}>
+                {/* Avatar */}
+                <div className="w-8 h-8 rounded-full border-2 border-white shadow-sm overflow-hidden flex-shrink-0">
+                  <img
+                    src={
+                      isMine
+                        ? authUser?.user?.avatar || '/avatar.png'
+                        : selectedUser?.avatar || '/avatar.png'
+                    }
+                    alt="avatar"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
-                {/* Message Bubble */}
-                <div
-                  className={`rounded-2xl px-4 py-2 max-w-xs lg:max-w-md ${
-                    message.senderId === authUser?._id
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-900'
-                  }`}
-                >
-                  {message.image && (
-                    <img
-                      src={message.image}
-                      alt="Attachment"
-                      className="max-w-full rounded-lg mb-2"
-                    />
-                  )}
-                  {message.text && <p className="text-sm">{message.text}</p>}
+                {/* Message Content */}
+                <div className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
+                  {/* Time */}
+                  <div className="text-xs text-gray-500 mb-1">
+                    {formatMessageTime(message.createdAt)}
+                  </div>
+
+                  {/* Message Bubble */}
+                  <div
+                    className={`rounded-2xl px-4 py-2 max-w-xs lg:max-w-md ${
+                      isMine ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-900'
+                    }`}
+                  >
+                    {message.imageUrl && (
+                      <img
+                        src={message.imageUrl}
+                        alt="Attachment"
+                        className="max-w-full rounded-lg mb-2"
+                      />
+                    )}
+                    {message.text && <p className="text-sm">{message.text}</p>}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <div ref={messageEndRef} />
       </div>
 

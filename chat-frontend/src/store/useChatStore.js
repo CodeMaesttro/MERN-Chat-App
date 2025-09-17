@@ -6,6 +6,14 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
 });
+export const useChatStore = create((set, get) => ({
+  // State
+  messages: [],
+  users: [],
+  selectedUser: null,
+  isUsersLoading: false,
+  isMessagesLoading: false,
+  // isSendingMessage: false,
 
 
   // Actions

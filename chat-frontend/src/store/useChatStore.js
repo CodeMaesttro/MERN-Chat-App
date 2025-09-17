@@ -7,14 +7,6 @@ const api = axios.create({
   withCredentials: true,
 });
 
-export const useChatStore = create((set, get) => ({
-  // State
-  messages: [],
-  users: [],
-  selectedUser: null,
-  isUsersLoading: false,
-  isMessagesLoading: false,
-  // isSendingMessage: false,
 
   // Actions
   getUsers: async () => {
